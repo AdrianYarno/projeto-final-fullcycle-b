@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: API de Pedidos - Projeto B (Full Cycle)
+  description: Contrato da API REST de domínio único para gestão de pedidos.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Ambiente Local / Docker
+paths:
+  /health:
+    get:
+      summary: Verifica a saúde da aplicação
+      responses:
+        '200':
+          description: Aplicação saudável
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+  /orders:
+    get:
+      summary: Lista todos os pedidos cadastrados
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      summary: Cria um novo pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+      responses:
+        '201':
+          description: Pedido criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Dados de entrada inválidos
+components:
+  schemas:
+    NewOrder:
+      type: object
+      required:
+        - customer
+        - item
+        - amount
+      properties:
+        customer:
+          type: string
+          example: Maria Silva
+        item:
+          type: string
+          example: Monitor 24"
+        amount:
+          type: number
+          example: 899.90
+    Order:
+      allOf:
+        - $ref: '#/components/schemas/NewOrder'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            status:
+              type: string
+              example: CREATED
+            createdAt:
+              type: string
+              format: date-time

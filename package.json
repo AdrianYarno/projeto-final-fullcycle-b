@@ -1,0 +1,13 @@
+{
+  "name": "projeto-b-pedidos",
+  "version": "1.0.0",
+  "description": "API de domínio único para Projeto Final Full Cycle - Nível B",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test tests/orders.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
